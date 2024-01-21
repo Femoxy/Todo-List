@@ -125,16 +125,14 @@ const verify = async (req, res) => {
 
                     return res.json("This link has expired. kindly check your email for another email to verify")
 
-                    //return res.redirect("/login"); // Redirect to login page
                 }
-                //else {
-                //                   }
+
 
             })
             
-        }console.log(user.isVerified)
+        }
         await user.save()
-        console.log(user.isVerified)
+        
     } catch (error) {
         res.status(500).json(error.message)
     }
@@ -173,7 +171,7 @@ const logIn = async (req, res) => {
                 userId: checkUser._id,
                 username: checkUser.username,
                 email: checkUser.email
-            }, process.env.secret, { expiresIn: '2min' })
+            }, process.env.secret, { expiresIn: '10min' })
             checkUser.token = token
             await checkUser.save()
             //Return a success response

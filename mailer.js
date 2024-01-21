@@ -34,7 +34,7 @@ const generateDynamicEmail=(link, username)=> {
               </tr><!-- end tr -->
               <tr>
               <td valign="middle" style="padding: 3em 0 2em 0;">
-                <img src="https://www.the-curve.africa/static/media/curve2.b90648ddd7482f82d25a.png" alt="" style="width: 300px; max-width: 600px; height: auto; margin: auto; display: block;">
+                <img src="https://assets.materialup.com/uploads/6c2dcbab-d500-4dac-8f6f-9c9f66dc2bfb/preview.png" alt="" style="width: 300px; max-width: 600px; height: auto; margin: auto; display: block;">
               </td>
               </tr><!-- end tr -->
                     <tr>
@@ -76,8 +76,8 @@ const generateDynamicEmail=(link, username)=> {
                           <td style="text-align: left; padding-left: 5px; padding-right: 5px;">
                               <h3 style="color: #000; font-size: 20px; margin-top: 0; font-weight: 400;">Contact Info</h3>
                               <ul>
-                                        <li><span style="color: rgba(0,0,0,.5);">161/163 Muyibi street,Olodi Apapa</span></li>
-                                        <li><span style="color: rgba(0,0,0,.5);">081372586756</span></li>
+                                        <li><span style="color: rgba(0,0,0,.5);">24 Road Carat, Festac Town</span></li>
+                                        <li><span style="color: rgba(0,0,0,.5);">08163491315</span></li>
                                       </ul>
                           </td>
                         </tr>
@@ -99,7 +99,7 @@ const generateDynamicEmail=(link, username)=> {
             </tr><!-- end: tr -->
             <tr>
               <td style="text-align: center; background-color: #fafafa;">
-                  © Copyright 2023. All rights reserved.<br/>
+                  © Copyright 2024. All rights reserved.<br/>
               </td>
             </tr>
           </table>
