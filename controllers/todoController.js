@@ -4,8 +4,8 @@ const {userModel, taskModel} = require('../models/todoModel')
 const newTask = async(req, res)=>{
     try {
         const taskOwner = await userModel.findById(req.params.id)
-        const { content, date}=req.body;
-        const newTask =  new taskModel({user:taskOwner._id, content, date});
+        const {title, content, date}=req.body;
+        const newTask =  new taskModel({user:taskOwner._id, title, content, date});
         
        taskOwner.todo.push(newTask);
        newTask.save();
@@ -70,16 +70,21 @@ const taskUpdate = async (req, res)=>{
     try {
         const taskId = req.params.id;
         const task = await taskModel.findById(taskId);
+        if(!task){
+            return res.status(404).json({
+                message: "Task not found"
+            })
+        }
         //check for entity and replace with existing data
         const Data = {
+            title: req.body.title|| task.title,
             content: req.body.content || task.content,
             date: req.body.date || task.date,
         }
-        const update = await taskModel.findByIdAndUpdate(taskId, req.body, {new: true});
-       
+        const update = await taskModel.findByIdAndUpdate(taskId, Data, {new:true})
         res.status(200).json({
             message: 'Updated successfully',
-            data: Data
+            data: update
         });
     } catch (error) {
         res.status(500).json({ 
@@ -92,7 +97,13 @@ const taskUpdate = async (req, res)=>{
   const deleteTask = async (req, res)=>{
     try {
         const taskId = req.params.id
-        const task = await taskModel.findByIdAndDelete(req.params.userId);
+        const user = await taskModel.findById(taskId)
+        if(!user){
+            return res.status(404).json({
+                message: 'Task not Found'
+            })
+        }
+        const task = await taskModel.findByIdAndDelete(taskId);
         res.json({message: 'Task deleted successfully'})
         
     } catch (error) {

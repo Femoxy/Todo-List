@@ -40,8 +40,9 @@ const userSchema = new mongoose.Schema({
 
 
     const taskSchema = new mongoose.Schema({
-
-    
+    title:{
+        type: String
+    },
     content:{
         type: String,
         required: true

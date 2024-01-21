@@ -3,12 +3,12 @@ const joi = require("@hapi/joi");
 const userValidation = (data) => {
     try {
         const validateUser = joi.object({
-            username: joi.string().trim().required().min(3)
+            username: joi.string().trim().required().min(3).max(30)
               .pattern(/^[A-Za-z\s]+$/).messages({
                 'string.empty': 'username cannot be empty',
                 'string.min': 'Minimum 3 characters required',
                 'any.pattern.base': 'username should only contain letters and spaces',
-                'any.required': 'Password is required'
+                'any.required': 'username is required'
               }),
             email: joi.string().email({ tlds: { allow: false } }).required().trim().messages({
               'string.empty': 'Email cannot be empty',

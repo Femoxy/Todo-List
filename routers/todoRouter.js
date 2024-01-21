@@ -1,5 +1,5 @@
 const express = require('express');
-const  {signUp, verify, logIn, getOne, getAll, forgotPassword, resetPassword }  = require('../controllers/userController');
+const  {signUp, verify, logIn, getOne, getAll, forgotPassword, resetPassword, signOut }  = require('../controllers/userController');
 const   {newTask, allUserTask, taskUpdate, deleteTask} = require('../controllers/todoController');
 
 const router = express.Router();
@@ -16,6 +16,8 @@ router.post('/forgotPassword', forgotPassword);
 
 router.get('/resetPassword/:id/:token', resetPassword);
 
+router.post('/signOut/:id', signOut)
+
 
 // router.post('/logout', authenticate, logOut);
 
@@ -27,7 +29,7 @@ router.get('/allTodo/:id', allUserTask);
 
  router.put('/task/:id', taskUpdate);
 
-router.delete('/delete/:taskId', deleteTask)
+router.delete('/delete/:id', deleteTask)
 
 
 
