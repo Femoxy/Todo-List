@@ -3,7 +3,7 @@ require('dotenv').config()
 
 const dbHost='localhost:27017'
 const dbName='TodoProject'
-const url = "mongodb+srv://olufemi261:ejJLARaKQ5NvfLoI@cluster0.g24dffc.mongodb.net/" 
+const url = process.env.database
 
 mongoose.connect(url)
 .then(()=>{
