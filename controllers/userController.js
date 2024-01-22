@@ -20,9 +20,11 @@ const signUp = async (req, res) => {
                 message: error.details[0].message,
             })
         } else {
-            const { username, email, password } = req.body;
-
+            const username= req.body.username;
+            const email= req.body.email;
+            const password= req.body.password;
             const checkUser = await userModel.findOne({ email: email.toLowerCase() })
+            console.log(checkUser)
             if (checkUser) {
                 return res.status(400).json({
                     message: 'Email already exist'
@@ -57,7 +59,7 @@ const signUp = async (req, res) => {
 
                 // }
             })
-            const token = jwt.sign({ username: user, username, email: user.email }, process.env.secret, { expiresIn: '1d' })
+            const token = jwt.sign({ username: user.username, email: user.email }, process.env.secret, { expiresIn: '1d' })
             user.token = token
 
             const subject = "Kindly verify"

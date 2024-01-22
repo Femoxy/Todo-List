@@ -4,10 +4,10 @@ const userValidation = (data) => {
     try {
         const validateUser = joi.object({
             username: joi.string().trim().required().min(3).max(30)
-              .pattern(/^[A-Za-z\s]+$/).messages({
+              .regex(/^[/^[a-zA-Z0-9]+$/).messages({
                 'string.empty': 'username cannot be empty',
                 'string.min': 'Minimum 3 characters required',
-                'any.pattern.base': 'username should only contain letters and spaces',
+                'any.pattern.base': 'username should only contain letters and numbers',
                 'any.required': 'username is required'
               }),
             email: joi.string().email({ tlds: { allow: false } }).required().trim().messages({
@@ -15,7 +15,7 @@ const userValidation = (data) => {
               'any.required': 'Email is required',
             }),
             password: joi.string().required().min(6)
-            .pattern(new RegExp(/^[A-Za-z0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]+$/)).messages({
+            .regex(/^[A-Za-z0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]+$/).messages({
               'string.empty': 'Password cannot be empty',
               'string.min': 'Minimum 6 characters required',
               'any.pattern.base': 'Password should contain letters, numbers, and special characters',

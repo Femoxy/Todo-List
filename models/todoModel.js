@@ -7,10 +7,11 @@ const userSchema = new mongoose.Schema({
     },
     email:{
         type: String,
-        required: true
+        required: true,
+        lowercase: true
     },
     password:{
-        type: String,
+        type: String, 
         required: true
     },
     isVerified:{
@@ -20,15 +21,15 @@ const userSchema = new mongoose.Schema({
     token:{
         type: String
     },
-    profilePicture:{
+    // profilePicture:{
         
-        public_id:{
-            type:String,
-        },
-        url:{
-            type:String,
+    //     public_id:{
+    //         type:String,
+    //     },
+    //     url:{
+    //         type:String,
             
-        }},
+    //     }},
 
     todo:[{
         type: mongoose.Schema.Types.ObjectId,
