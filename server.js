@@ -2,6 +2,7 @@ const express = require('express');
 require('./config/dbConfig');
 require('dotenv').config()
 const cors = require("cors");
+const corsMiddleware = require('./middleware/cors');
 const port = process.env.port
 
 const todoRouter = require('./routers/todoRouter')
