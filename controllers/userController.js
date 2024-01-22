@@ -1,4 +1,4 @@
-const { userModel } = require('../models/todoModel')
+const { userModel, taskModel } = require('../models/todoModel')
 const bcrypt = require("bcrypt");
 const { userValidation, validateLogin } = require('../middleware/validator');
 const { resetFunc } = require('../forgotPassword')
@@ -171,7 +171,7 @@ const logIn = async (req, res) => {
                 userId: checkUser._id,
                 username: checkUser.username,
                 email: checkUser.email
-            }, process.env.secret, { expiresIn: '10min' })
+            }, process.env.secret, { expiresIn: '1d' })
             checkUser.token = token
             await checkUser.save()
             //Return a success response
@@ -188,126 +188,126 @@ const logIn = async (req, res) => {
     }
 }
 
-//get a user
-const getOne = async (req, res) => {
-    try {
-        const checkUser = await userModel.findById(req.body.userId)
-        if (!checkUser) {
-            return res.status(404).json({
-                message: 'User not found'
-            })
-        } else {
-            res.status(200).json({
-                message: "User details",
-                data: checkUser
-            })
-        }
+// //get a user
+// const getOne = async (req, res) => {
+//     try {
+//         const checkUser = await userModel.findById(req.body.userId)
+//         if (!checkUser) {
+//             return res.status(404).json({
+//                 message: 'User not found'
+//             })
+//         } else {
+//             res.status(200).json({
+//                 message: "User details",
+//                 data: checkUser
+//             })
+//         }
 
-    } catch (error) {
-        res.status(500).json({
-            message: error.message
-        })
-    }
-}
+//     } catch (error) {
+//         res.status(500).json({
+//             message: error.message
+//         })
+//     }
+// }
 
-// Get all user in the database
-const getAll = async (req, res) => {
-    try {
-        // Retrieve all users in the database
-        const users = await userModel.find();
+// // Get all user in the database
+// const getAll = async (req, res) => {
+//     try {
+//         // Retrieve all users in the database
+//         const users = await userModel.find();
 
-        if (users.length === 0) {
-            return res.status(200).json({
-                message: 'There are currently no user in the database'
-            })
-        };
+//         if (users.length === 0) {
+//             return res.status(200).json({
+//                 message: 'There are currently no user in the database'
+//             })
+//         };
 
-        // Return a success message
-        res.status(200).json({
-            message: `There are ${users.length} users in the database`,
-            users
-        })
+//         // Return a success message
+//         res.status(200).json({
+//             message: `There are ${users.length} users in the database`,
+//             users
+//         })
 
-    } catch (error) {
-        res.status(500).json({
-            message: error.message
-        })
-    }
-}
+//     } catch (error) {
+//         res.status(500).json({
+//             message: error.message
+//         })
+//     }
+// }
 
 
-const forgotPassword = async (req, res) => {
-    try {
-        const checkUser = await userModel.findOne({ email: req.body.email })
-        if (!checkUser) {
-            return res.status(404).json('Email does not exist')
-        } else {
-            const subject = "Forgot Password"
-            const link = `${req.protocol}://${req.get('host')}/resetPassword/${checkUser.id}/${checkUser.token}`
-            const html = resetFunc(link, checkUser.username)
-            sendMail({
-                email: checkUser.email,
-                subject,
-                html
-            })
+// const forgotPassword = async (req, res) => {
+//     try {
+//         const checkUser = await userModel.findOne({ email: req.body.email })
+//         if (!checkUser) {
+//             return res.status(404).json('Email does not exist')
+//         } else {
+//             const subject = "Forgot Password"
+//             const link = `${req.protocol}://${req.get('host')}/resetPassword/${checkUser.id}/${checkUser.token}`
+//             const html = resetFunc(link, checkUser.username)
+//             sendMail({
+//                 email: checkUser.email,
+//                 subject,
+//                 html
+//             })
 
-            return res.status(200).json("Kindly check your email for a link to reset password")
-        }
+//             return res.status(200).json("Kindly check your email for a link to reset password")
+//         }
 
-    } catch (error) {
-        res.status(500).json({
-            message: error.message
-        })
-    }
-}
+//     } catch (error) {
+//         res.status(500).json({
+//             message: error.message
+//         })
+//     }
+// }
 
-const resetPassword = async (req, res) => {
-    try {
-        const password = req.body.password
-        const id = req.params.id
+// const resetPassword = async (req, res) => {
+//     try {
+//         const password = req.body.password
+//         const id = req.params.id
 
-        const salt = bcrypt.genSaltSync(12);
-        const hashPassword = bcrypt.hashSync(password, salt);
+//         const salt = bcrypt.genSaltSync(12);
+//         const hashPassword = bcrypt.hashSync(password, salt);
 
-        const data = { password: hashPassword }
+//         const data = { password: hashPassword }
 
-        const reset = await userModel.findByIdAndUpdate(id, data, { new: true })
-        // await reset.save();
-        res.status(200).json('Your password has been changed')
+//         const reset = await userModel.findByIdAndUpdate(id, data, { new: true })
+//         // await reset.save();
+//         res.status(200).json('Your password has been changed')
 
-    } catch (error) {
-        res.status(500).json({
-            message: error.message
-        })
+//     } catch (error) {
+//         res.status(500).json({
+//             message: error.message
+//         })
 
-    }
-}
+//     }
+// }
 
-//User can delete their account
-const deleteUser = async (req, res) => {
-    try {
-        // track the user id
-        const userId = req.params.userId;
-        //track user with the id gotten
-        const user = await userModel.findById(userId);
-        // check for error
-        if (!user) {
-            res.status(404).json({
-                message: `User with id: ${userId} is not found.`
-            }); return
-        }
-        // delete the user
-        await userModel.findByIdAndDelete(user)
-        return res.status(200).json({
-            message: `User with the name ${user.username} was successfully deleted.`,
-            //data: user,
-        });
-    } catch (err) {
-        res.status(500).json({
-            message: err.message
-        });
-    }
-}
+// //User can delete their account
+// const deleteUser = async (req, res) => {
+//     try {
+//         // track the user id
+//         const userId = req.params.userId;
+//         //track user with the id gotten
+//         const user = await userModel.findById(userId);
+//         // check for error
+//         if (!user) {
+//             res.status(404).json({
+//                 message: `User with id: ${userId} is not found.`
+//             }); return
+//         }
+//         // delete the user from the model
+//         await userModel.findByIdAndDelete(user)
+//         // Delete tasks associated with the user
+//         await taskModel.deleteMany({ userId: userId });
+//         return res.redirect('/');
+
+//     } catch (err) {
+//         res.status(500).json({
+//             message: err.message
+//         });
+//     }
+// }
 
 //Signout
 const signOut = async (req, res) => {
@@ -336,4 +336,4 @@ const signOut = async (req, res) => {
 
 
 
-module.exports = { signUp, verify, logIn, getOne, getAll, deleteUser, signOut, forgotPassword, resetPassword }
+module.exports = { signUp, verify, logIn, signOut}
