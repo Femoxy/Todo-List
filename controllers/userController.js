@@ -104,7 +104,7 @@ const verify = async (req, res) => {
         await user.save()
         //const {username, Lastname, email} = user
         if (user.isVerified === true) {
-            
+            //return res.redirect("/login")
             return res.status(201).json(`Congratulations ${user.username}, you have been verified`)
         } else {
             jwt.verify(user.token, process.env.secret, (error) => {
@@ -168,7 +168,8 @@ const logIn = async (req, res) => {
                     message: "Password is incorrect"
                 })
             }
-            //token to authenticate a user's actions
+            if(checkUser.isVerified === true){
+                //token to authenticate a user's actions
             const token = jwt.sign({
                 userId: checkUser._id,
                 username: checkUser.username,
@@ -181,8 +182,14 @@ const logIn = async (req, res) => {
                 message: "Login successfully",
                 token: token
             })
+        } else{
+            res.status(400).json({
+                message: 'You have not been verified'
+            })
         }
 
+            }
+           
     } catch (error) {
         res.status(500).json({
             message: error.message
