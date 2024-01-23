@@ -2,7 +2,7 @@ const express = require('express');
 const  {signUp, verify, logIn, signOut }  = require('../controllers/userController');
 const   {newTask, allUserTask, taskUpdate, deleteTask} = require('../controllers/todoController');
 const autheticator = require('../middleware/authentication');
-const corsMiddleware = require('../middleware/cors');
+
 
 const router = express.Router();
 
@@ -29,7 +29,7 @@ router.post('/newTodo/:id', autheticator, newTask);
 
 router.get('/allTodo/:id',autheticator, allUserTask);
 
- router.put('/task/:id',autheticator, corsMiddleware, taskUpdate);
+ router.put('/task/:id',autheticator, taskUpdate);
 
 router.delete('/delete/:id',autheticator, deleteTask)
 
