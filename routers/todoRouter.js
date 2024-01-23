@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/signup', signUp);
 
-router.post('/verify/:id/:token', verify);
+router.get('/verify/:id/:token', verify);
 
 //router.get('/getOne/:id', getOne)
 
