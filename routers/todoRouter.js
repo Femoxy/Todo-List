@@ -18,7 +18,7 @@ router.post('/forgotPassword', forgotPassword);
 
 router.get('/resetPassword/:id/:token', resetPassword);
 
-router.post('/signOut/:id', signOut)
+router.post('/signOut/:id', autheticator, signOut)
 
 
 // router.post('/logout', authenticate, logOut);
