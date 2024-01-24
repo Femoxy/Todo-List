@@ -3,12 +3,12 @@ require('./config/dbConfig');
 require('dotenv').config()
 const cors = require("cors");
 
-const todoRouter = require('./routers/todoRouter')
 //const fileUpload=require("express-fileupload")
 
 const app = express();
 app.use(cors({origin: "*"}));
 app.use(express.json());
+const todoRouter = require('./routers/todoRouter')
 
 app.get('/', (req, res)=>{
     res.send("Welcome to your todo list app")

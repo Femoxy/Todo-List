@@ -1,5 +1,5 @@
 const express = require('express');
-const  {signUp, verify, logIn, signOut }  = require('../controllers/userController');
+const  {signUp, verify, logIn, getAll,forgotPassword, resetPassword, signOut }  = require('../controllers/userController');
 const   {newTask, allUserTask, taskUpdate, deleteTask} = require('../controllers/todoController');
 const autheticator = require('../middleware/authentication');
 
@@ -14,16 +14,16 @@ router.get('/verify/:id/:token', verify);
 
  router.post('/login', logIn);
 
-//router.post('/forgotPassword', forgotPassword);
+router.post('/forgotPassword', forgotPassword);
 
-//router.get('/resetPassword/:id/:token', resetPassword);
+router.get('/resetPassword/:id/:token', resetPassword);
 
 router.post('/signOut/:id', signOut)
 
 
 // router.post('/logout', authenticate, logOut);
 
- //router.get('/all', getAll);
+ router.get('/all', getAll);
 
 router.post('/newTodo/:id', autheticator, newTask);
 
