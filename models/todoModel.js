@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     username:{
         type:String,
-        required: true
+        required: true,
+        lowercase: true
     },
     email:{
         type: String,
@@ -21,6 +22,10 @@ const userSchema = new mongoose.Schema({
     token:{
         type: String
     },
+    // otpCode:{
+    //     type: String
+    // },
+
     // profilePicture:{
         
     //     public_id:{

@@ -15,7 +15,7 @@ const userValidation = (data) => {
               'any.required': 'Email is required',
             }),
             password: joi.string().required().min(6)
-            .regex(/^[A-Za-z0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]+$/).messages({
+            .pattern(new RegExp(/^[A-Za-z0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]+$/)).messages({
               'string.empty': 'Password cannot be empty',
               'string.min': 'Minimum 6 characters required',
               'any.pattern.base': 'Password should contain letters, numbers, and special characters',
@@ -31,29 +31,7 @@ const userValidation = (data) => {
     }
 }
 
-const validateLogin = (data) => {
-    const validateUserlogin = joi.object({
-        email: joi.string().email({ tlds: { allow: false } }).required().trim().messages({
-            'string.empty': 'email cannot be empty',
-            'any.required': 'Email is required',
-          }),
-        password: joi.string().required().min(6)
-        .pattern(new RegExp(/^[A-Za-z0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]+$/)).messages({
-            'string.empty': 'Password cannot be empty',
-            'string.min': 'Minimum 6 characters required',
-            'any.pattern.base': 'Password should contain letters, numbers, and special characters',
-            'any.required': 'Password is required',
-          }),
-      
-
-    })
-    return validateUserlogin.validate(data);
-};
-
-
-
 module.exports = {
     userValidation, 
-    validateLogin
 
 };

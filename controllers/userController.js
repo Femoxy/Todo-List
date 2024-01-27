@@ -5,6 +5,8 @@ const { resetFunc } = require('../forgotPassword')
 const jwt = require('jsonwebtoken');
 const { sendMail } = require('../middleware/email');
 const { generateDynamicEmail } = require('../mailer');
+//const otpGenerator = require('otp-generator');
+const { link } = require('@hapi/joi');
 //const cloudinary = require('../middleware/cloudinary')
 require('dotenv').config()
 
@@ -64,7 +66,6 @@ const signUp = async (req, res) => {
 
             const subject = "Kindly verify"
             const link = `${req.protocol}://${req.get('host')}/verify/${user.id}/${user.token}`
-
             const html = generateDynamicEmail(link, user.username)
 
             sendMail(
@@ -143,18 +144,12 @@ const verify = async (req, res) => {
 
 //Login a user
 const logIn = async (req, res) => {
-    try {
-        const { error } = await validateLogin(req.body);
-        if (error) {
-            res.status(500).json({
-                message: error.details[0].message,
-            })
-        } else {
-            const { email, password } = req.body;
+    
+            const { emailOrusername, password} = req.body;
 
             //Find the user in the database
-            const checkUser = await userModel.findOne({ email: email.toLowerCase() })
-
+            const checkUser = await userModel.findOne( {$or: [{email:emailOrusername},{username:emailOrusername}]
+            })
             //check if the user is not existing and reutrn a response
             if (!checkUser) {
                 return res.status(404).json({
@@ -179,7 +174,7 @@ const logIn = async (req, res) => {
             await checkUser.save()
             //Return a success response
             res.status(201).json({
-                message: "Login successfully",
+                message: "Login successfully", 
                 token: token
             })
         } else{
@@ -188,13 +183,6 @@ const logIn = async (req, res) => {
             })
         }
 
-            }
-           
-    } catch (error) {
-        res.status(500).json({
-            message: error.message
-        })
-    }
 }
 
 // //get a user
@@ -298,7 +286,7 @@ const deleteUser = async (req, res) => {
         // track the user id
         const userId = req.params.userId;
         //track user with the id gotten
-        const user = await userModel.findById(userId);
+        const user = await userModel.findById(userId); 
         // check for error
         if (!user) {
             res.status(404).json({
