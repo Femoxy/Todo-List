@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema({
     // otpCode:{
     //     type: String
     // },
+    // otpCode:{
+    //     type: String
+    // },
 
     // profilePicture:{
         
