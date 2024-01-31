@@ -169,7 +169,7 @@ const logIn = async (req, res) => {
                 userId: checkUser._id,
                 username: checkUser.username,
                 email: checkUser.email
-            }, process.env.secret, { expiresIn: '1d' })
+            }, process.env.secret, { expiresIn: '2min' })
             checkUser.token = token
             await checkUser.save()
             //Return a success response
